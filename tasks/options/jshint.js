@@ -1,3 +1,3 @@
 module.exports = {
-  beforeconcat: ['js/*.js']
+  beforeconcat: ['js/bg-responsive.js']
 }
