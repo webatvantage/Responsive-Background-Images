@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html id="top" class="no-js">
+
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Responsive Background Images</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- JS Enabled -->
+    <script>
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    </script>
+</head>
+
+<body>
+
+    <div class="bg-responsive" data-xs="img/xs.jpg" data-sm="img/sm.jpg" data-md="img/md.jpg" data-lg="img/lg.jpg"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/bg-responsive.js"></script>
+
+    <script type="text/javascript">
+    // Get current breakpoint
+    ResponsiveBackgrounds.init();
+    //console.log(ResponsiveBackgrounds.currentBreakpoint());
+
+    // Watch for breakpoint changes
+    ResponsiveBackgrounds.update({interval: 500});
+    //window.addEventListener('resize', function(){ console.log(ResponsiveBackgrounds.currentBreakpoint()); }, false);
+    </script>
+
+</body>
+
+</html>
