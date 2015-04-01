@@ -61,7 +61,7 @@ ResponsiveBackgrounds.init({
   envs: ['xs', 'xl']
 });
 ```
-Then my data attributes should be as following
+Then the data attributes should be as following
 ```
 <div class="bg-responsive" style="background-image:url(img/xs.jpg);" data-xs="img/xs.jpg" data-xl="img/xl.jpg"></div>
 ```
