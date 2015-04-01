@@ -54,6 +54,7 @@ interval: 300
 ```
 
 _**Note: when changing the default environments, you'll also need to name of your data attributes accordingly**_
+
 _Example_
 ```
 ResponsiveBackgrounds.init({envs: ['xs', 'xl']});
