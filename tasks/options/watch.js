@@ -18,12 +18,5 @@ module.exports = {
         options: {
             spawn: false,
         }
-    },
-    images: {
-        files: ['images/**/*.{png,jpg,gif}', 'images/*.{png,jpg,gif}'],
-        tasks: ['imageoptim', 'notify:images'],
-        options: {
-            spawn: false,
-        }
     }
 };
