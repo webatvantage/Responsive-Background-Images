@@ -1,6 +1,6 @@
 /**
  *
- * Get Bootstrap Breakpoint
+ * Get Bootstrap Breakpoint v1.01
  *
  * By Robert Nurijanyan
  * http://www.webatvantage.be/nl/home
@@ -146,12 +146,53 @@
         };
     };
 
+    //
+    // Public APIs
+    //
+
     /**
-     * Return the current breakpoint
-     * @private
+     * Sets background image based on breakpoint
+     * @public
+     */
+    ResponsiveBackgrounds.init = function(options) {
+
+        defaults = extend(defaults, options || {});
+
+        // Define local variables
+        var backgrounds = document.querySelectorAll(defaults.selector),
+            el, elData, currentBreakpoint = ResponsiveBackgrounds.currentBreakpoint();
+
+        // Loop through all target elements
+        for (var i = 0, len = backgrounds.length; i < len; i++) {
+
+            // Set current variables
+            el = backgrounds[i];
+            elData = el.getAttribute('data-' + currentBreakpoint);
+
+            // If the data attribute exists, set the background
+            if (elData !== null) {
+                el.style.backgroundImage = "url(" + elData + ")";
+            } else {
+                if (typeof console == "object") {
+                    console.warn('Data attribute: data-' + currentBreakpoint + ' not found on element:\n\n' + el.outerHTML + '\n\n\n');
+                }
+            }
+        }
+
+
+        // Add the resize handler once
+        once(window.addEventListener('resize', debounce(
+            ResponsiveBackgrounds.init
+        ), defaults.interval, false));
+
+    };
+
+    /**
+     * Return current breakpoint
+     * @public
      * @returns {String}
      */
-    var determineBreakpoint = function() {
+    ResponsiveBackgrounds.currentBreakpoint = function(options) {
         // Define local variables
         var doc = window.document,
             temp = doc.createElement("div"),
@@ -181,62 +222,12 @@
         return 'Unknown breakpoint';
     };
 
-    //
-    // Public APIs
-    //
-
-    /**
-     * Sets background image based on breakpoint
-     * @public
-     */
-    ResponsiveBackgrounds.init = function(options) {
-
-        defaults = extend(defaults, options || {}); // Merge user options with defaults
-
-        var backgrounds = document.querySelectorAll(defaults.selector),
-            el, elData, currentBreakpoint = determineBreakpoint();
-
-        for (var i = 0, len = backgrounds.length; i < len; i++) {
-
-            el = backgrounds[i];
-            elData = el.getAttribute('data-' + currentBreakpoint);
-
-            if (elData !== null) {
-                el.style.backgroundImage = "url(" + elData + ")";
-            } else {
-                if (typeof console == "object") {
-                    console.warn('Data attribute: data-' + currentBreakpoint + ' not found on element:\n\n' + el.outerHTML + '\n\n\n');
-                }
-            }
-        }
-
-    };
-
-    /**
-     * Return current breakpoint
-     * @public
-     */
-    ResponsiveBackgrounds.currentBreakpoint = function(options) {
-        defaults = extend(defaults, options || {}); // Merge user options with defaults
-        return determineBreakpoint();
-    };
-
-    /**
-     * Sets the breakpoint on resize
-     * @public
-     */
-    ResponsiveBackgrounds.update = function(options) {
-        defaults = extend(defaults, options || {}); // Merge user options with defaults
-        once(window.addEventListener('resize', debounce(function() {
-            ResponsiveBackgrounds.init();
-        }), defaults.interval, false));
-    };
-
+    // Return the object
     return ResponsiveBackgrounds;
-
 });
 
 /**
  * TODO
  * If an image of a larger breakpoint has already been loaded, don't send a request for a smaller one
+ * Further code optimization
  */
