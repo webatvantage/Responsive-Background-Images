@@ -2,11 +2,11 @@
 _Lightweight (only 2kb minified) vanilla JS plugin for loading dynamic background images. Useful for cases when the background source is set dynamically by back-end integration (e.g. CMS, Ajax calls, ...). Works out of the box with Bootstrap 3.x+._
 
 ##Demo
--------------
+
 _Coming soon_
 
 ##Usage
-------
+
 
 
 Add the CSS somewhere in the head
@@ -45,7 +45,7 @@ Add the JS at the end of the body
 
 
 ##Options
-------
+
 
 ```
 envs: ['xs', 'sm', 'md', 'lg'],
