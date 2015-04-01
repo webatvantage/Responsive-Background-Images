@@ -57,7 +57,9 @@ _**Note: when changing the default environments, you'll also need to name of you
 
 _Example_
 ```
-ResponsiveBackgrounds.init({envs: ['xs', 'xl']});
+ResponsiveBackgrounds.init({
+  envs: ['xs', 'xl']
+});
 ```
 Then my data attributes should be as following
 ```
