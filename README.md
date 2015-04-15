@@ -27,7 +27,14 @@ _**The class and data attributes are required**_
   The inline style element is not required but recommended as fallback
   This (usually) should be the image with the lowest filesize
 -->
-<div class="bg-responsive" style="background-image:url(img/xs.jpg);" data-xs="img/xs.jpg" data-sm="img/sm.jpg" data-md="img/md.jpg" data-lg="img/lg.jpg"></div>
+<div 
+  class="bg-responsive" 
+  style="background-image:url(img/xs.jpg);" 
+  data-xs="img/xs.jpg" 
+  data-sm="img/sm.jpg" 
+  data-md="img/md.jpg" 
+  data-lg="img/lg.jpg">
+</div>
 
 ```
 
