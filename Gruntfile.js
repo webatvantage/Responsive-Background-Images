@@ -35,5 +35,5 @@ module.exports = function(grunt) {
     grunt.initConfig(config);
 
     // Default Task is basically a rebuild
-    grunt.registerTask('default', ['jshint', 'uglify', 'imageoptim', 'autoprefixer', 'cssmin', 'notify']);
+    grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'notify']);
 };

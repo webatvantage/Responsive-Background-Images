@@ -34,7 +34,7 @@
     var defaults = {
         envs: ['xs', 'sm', 'md', 'lg'],
         selector: '.bg-responsive',
-        interval: 300
+        interval: 500
     };
 
 
@@ -87,63 +87,46 @@
     };
 
     /**
-     * Returns a function, that, as long as it continues to be invoked, will not be triggered
+     * Returns a function, that, as long as it continues to be invoked, will not
+     * be triggered. The function will be called after it stops being called for
+     * N milliseconds. If `immediate` is passed, trigger the function on the
+     * leading edge, instead of the trailing.
      * @private
      * @param {Function} The function that will be called after it stops being called for N milliseconds
      * @param {Number} Interval in milliseconds
      * @param {Boolean} trigger the function on the leading edge, instead of the trailing
      * @returns {Function}
      * @usage - http://underscorejs.org/#debounce
+     * @usage - http://snippetrepo.com/snippets/basic-vanilla-javascript-throttlingdebounce
      */
     var debounce = function(func, wait, immediate) {
-        var timeout, args, context, timestamp, result;
-
-        var later = function() {
-            var last = now() - timestamp;
-
-            if (last < wait && last >= 0) {
-                timeout = setTimeout(later, wait - last);
-            } else {
-                timeout = null;
-                if (!immediate) {
-                    result = func.apply(context, args);
-                    if (!timeout) context = args = null;
-                }
-            }
-        };
-
+        var timeout;
         return function() {
-            context = this;
-            args = arguments;
-            timestamp = now();
-            var callNow = immediate && !timeout;
-            if (!timeout) timeout = setTimeout(later, wait);
-            if (callNow) {
-                result = func.apply(context, args);
-                context = args = null;
-            }
-
-            return result;
+            var context = this,
+                args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            }, wait);
+            if (immediate && !timeout) func.apply(context, args);
         };
     };
 
     /**
-     * Creates a version of the function that can only be called one time. Repeated calls to the modified function will have no effect, returning the value from the original call. Useful for initialization functions, instead of having to set a boolean flag and then check it later.
-     * @private
-     * @param {Function} The function to be called
-     * @returns {Function}
-     * @usage - http://underscorejs.org/#once
+     * Add an Event Listener to the object or element
+     * http://stackoverflow.com/questions/641857/javascript-window-resize-event#3150139
+     * @usage - addEvent(window, "resize", functionName);
      */
-    var once = function(func) {
-        var ran = false,
-            memo;
-        return function() {
-            if (ran) return memo;
-            ran = true;
-            memo = func.apply(this, arguments);
-            func = null;
-            return memo;
-        };
+    var addEvent = function(elem, type, eventHandle) {
+        if (elem === null || typeof(elem) == 'undefined') return;
+        if (elem.addEventListener) {
+            elem.addEventListener(type, eventHandle, false);
+        } else if (elem.attachEvent) {
+            elem.attachEvent("on" + type, eventHandle);
+        } else {
+            elem["on" + type] = eventHandle;
+        }
     };
 
     //
@@ -171,7 +154,7 @@
 
             // If the data attribute exists, set the background
             if (elData !== null) {
-                el.style.backgroundImage = "url(" + elData + ")";
+                el.style.backgroundImage = "url('" + elData + "')";
             } else {
                 if (typeof console == "object") {
                     console.warn('Data attribute: data-' + currentBreakpoint + ' not found on element:\n\n' + el.outerHTML + '\n\n\n');
@@ -179,11 +162,7 @@
             }
         }
 
-
-        // Add the resize handler once
-        once(window.addEventListener('resize', debounce(
-            ResponsiveBackgrounds.init
-        ), defaults.interval, false));
+        
 
     };
 
@@ -209,6 +188,7 @@
             temp.className = "hidden-" + env;
 
             // Found breakpoint
+            // IE 9 Returns the document.body instead(?)
             if (temp.offsetParent === null) {
 
                 // Remove our test node
@@ -221,6 +201,11 @@
         // Breakpoint not found
         return 'Unknown breakpoint';
     };
+
+    // Add resize handler when script is loaded
+    addEvent(window, "resize",
+        debounce(ResponsiveBackgrounds.init, defaults.interval)
+    );
 
     // Return the object
     return ResponsiveBackgrounds;
