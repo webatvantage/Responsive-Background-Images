@@ -41,13 +41,9 @@ _**The class and data attributes are required**_
 
 
 Add the JS at the end of the body
+The script initializes automatically on load
 ```javascript
 <script src="js/bg-responsive.js"></script>
-<script type="text/javascript">
-  // Initialize Responsive Background Images
-  ResponsiveBackgrounds.init();
-</script>
-
 ```
 
 
@@ -76,7 +72,10 @@ Then the data attributes should be as following
 ## Methods
 
 ```javascript
-// Initialize Responsive Background Images
+/*
+* Manually initialize Responsive Background Images
+* (!Note the script intializes automatically when loaded, use this when you need manual initialization)
+*/
 ResponsiveBackgrounds.init();
 
 // Get current breakpoint
