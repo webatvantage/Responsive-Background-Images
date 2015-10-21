@@ -40,8 +40,8 @@ _**The class and data attributes are required**_
 
 
 
-Add the JS at the end of the body
-The script initializes automatically on load and adds a resize handler that sets the corresponding src on breakpoint change
+Add the JS at the end of the body.
+The script initializes automatically on load and adds a resize handler that sets the corresponding background-image on breakpoint change.
 ```javascript
 <script src="js/bg-responsive.js"></script>
 ```
@@ -79,7 +79,7 @@ Then the data attributes should be as following
 ResponsiveBackgrounds.init();
 
 /*
-* Manually add a resize handler that sets the corresponding src on breakpoint change
+* Manually add a resize handler that sets the corresponding background-image on breakpoint change
 * (!This is executed on intialization, use this only when you need manual initialization)
 */
 ResponsiveBackgrounds.addResizeEvent();
