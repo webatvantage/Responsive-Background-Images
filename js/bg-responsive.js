@@ -34,7 +34,7 @@
     var defaults = {
         envs: ['xs', 'sm', 'md', 'lg'],
         selector: '.bg-responsive',
-        interval: 500
+        interval: 250
     };
 
 
@@ -100,34 +100,37 @@
      * @usage - http://snippetrepo.com/snippets/basic-vanilla-javascript-throttlingdebounce
      */
     var debounce = function(func, wait, immediate) {
-        var timeout;
-        return function() {
-            var context = this,
-                args = arguments;
-            clearTimeout(timeout);
-            timeout = setTimeout(function() {
+
+        var timeout, args, context, timestamp, result;
+        var later = function() {
+            var last = now() - timestamp;
+
+            if (last < wait && last >= 0) {
+                timeout = setTimeout(later, wait - last);
+            } else {
                 timeout = null;
-                if (!immediate) func.apply(context, args);
-            }, wait);
-            if (immediate && !timeout) func.apply(context, args);
+                if (!immediate) {
+                    result = func.apply(context, args);
+                    if (!timeout) context = args = null;
+                }
+            }
+        };
+
+        return function() {
+            context = this;
+            args = arguments;
+            timestamp = now();
+            var callNow = immediate && !timeout;
+            if (!timeout) timeout = setTimeout(later, wait);
+            if (callNow) {
+                result = func.apply(context, args);
+                context = args = null;
+            }
+
+            return result;
         };
     };
 
-    /**
-     * Add an Event Listener to the object or element
-     * http://stackoverflow.com/questions/641857/javascript-window-resize-event#3150139
-     * @usage - addEvent(window, "resize", functionName);
-     */
-    var addEvent = function(elem, type, eventHandle) {
-        if (elem === null || typeof(elem) == 'undefined') return;
-        if (elem.addEventListener) {
-            elem.addEventListener(type, eventHandle, false);
-        } else if (elem.attachEvent) {
-            elem.attachEvent("on" + type, eventHandle);
-        } else {
-            elem["on" + type] = eventHandle;
-        }
-    };
 
     //
     // Public APIs
@@ -161,9 +164,6 @@
                 }
             }
         }
-
-        
-
     };
 
     /**
@@ -171,7 +171,7 @@
      * @public
      * @returns {String}
      */
-    ResponsiveBackgrounds.currentBreakpoint = function(options) {
+    ResponsiveBackgrounds.currentBreakpoint = function() {
         // Define local variables
         var doc = window.document,
             temp = doc.createElement("div"),
@@ -202,10 +202,32 @@
         return 'Unknown breakpoint';
     };
 
-    // Add resize handler when script is loaded
-    addEvent(window, "resize",
-        debounce(ResponsiveBackgrounds.init, defaults.interval)
-    );
+    /**
+     * Remove resize event
+     * @public
+     * @returns {String}
+     */
+    ResponsiveBackgrounds.removeResizeEvent = function() {
+
+        window.removeEventListener('resize', debounce(ResponsiveBackgrounds.init , defaults.interval));
+    };
+
+    /**
+     * Add resize event
+     * @public
+     * @returns {String}
+     */
+    ResponsiveBackgrounds.addResizeEvent = function() {
+
+        // Remove existing resizeEvents before adding new ones
+        ResponsiveBackgrounds.removeResizeEvent();
+        window.addEventListener('resize', debounce(ResponsiveBackgrounds.init , defaults.interval));
+    };
+
+
+    // Auto initialize
+    ResponsiveBackgrounds.init();
+    ResponsiveBackgrounds.addResizeEvent();
 
     // Return the object
     return ResponsiveBackgrounds;

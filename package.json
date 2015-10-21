@@ -1,6 +1,9 @@
 {
-  "name": "ResponsiveBackgroundImages",
-  "version": "1.01",
+  "name": "responsivebackgroundimages",
+  "version": "1.0.1",
+  "description": "Responsive Background Images Tasks",
+  "main": "Gruntfile.js",
+  "author": "Robert Nurijanyan",
   "devDependencies": {
     "glob": "^5.0.3",
     "grunt": "^0.4.5",

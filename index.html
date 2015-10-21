@@ -10,30 +10,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css"></head>
+    <link rel="stylesheet" href="css/main.css">
+</head>
 
 <body>
     <div class="wrapper">
-        <!-- 
+        <!--
             The inline style element is not required but recommended as fallback
             This (usually) should be the image with the lowest filesize
         -->
-        <div class="bg-responsive" style="background-image:url(img/xs.jpg);" data-xs="img/xs.jpg" data-sm="img/sm.jpg" data-md="img/md.jpg" data-lg="img/lg.jpg"></div>
+        <div class="bg-responsive" data-xs="img/xs.jpg" data-sm="img/sm.jpg" data-md="img/md.jpg" data-lg="img/lg.jpg"></div>
     </div>
 
     <!-- SCRIPTS -->
     <script src="js/bg-responsive.js"></script>
 
     <script type="text/javascript">
-    
-    // Initialize Responsive Background Images
-    ResponsiveBackgrounds.init();
+        // Initialize Responsive Background Images
+        /*ResponsiveBackgrounds.init({
+            interval: 10
+        });*/
 
-    // Get current breakpoint
-    //console.log(ResponsiveBackgrounds.currentBreakpoint());
+        // Get current breakpoint
+        //console.log(ResponsiveBackgrounds.currentBreakpoint());
 
-    // Watch for breakpoint changes
-    //window.addEventListener('resize', function(){ console.log(ResponsiveBackgrounds.currentBreakpoint()); }, false);
+        // Watch for breakpoint changes
+        //window.addEventListener('resize', function(){ console.log(ResponsiveBackgrounds.currentBreakpoint()); }, false);
+
     </script>
 
 </body>
