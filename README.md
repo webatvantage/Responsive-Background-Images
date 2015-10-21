@@ -41,7 +41,7 @@ _**The class and data attributes are required**_
 
 
 Add the JS at the end of the body
-The script initializes automatically on load
+The script initializes automatically on load and adds a resize handler that sets the corresponding src on breakpoint change
 ```javascript
 <script src="js/bg-responsive.js"></script>
 ```
@@ -53,7 +53,7 @@ The script initializes automatically on load
 ```
 envs: ['xs', 'sm', 'md', 'lg'],
 selector: '.bg-responsive',
-interval: 300
+interval: 250
 ```
 
 _**Note: when changing the default environments, you'll also need to change the name of your data attributes accordingly**_
@@ -77,6 +77,15 @@ Then the data attributes should be as following
 * (!Note the script intializes automatically when loaded, use this when you need manual initialization)
 */
 ResponsiveBackgrounds.init();
+
+/*
+* Manually add a resize handler that sets the corresponding src on breakpoint change
+* (!This is executed on intialization, use this only when you need manual initialization)
+*/
+ResponsiveBackgrounds.addResizeEvent();
+
+// Remove existing resize handler
+ResponsiveBackgrounds.removeResizeEvent();
 
 // Get current breakpoint
 console.log(ResponsiveBackgrounds.currentBreakpoint());
